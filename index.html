@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Maestro de Artículos - CD Oquendo</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
@@ -10,65 +12,83 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
+            padding-bottom: 20px;
         }
 
         .container {
+            width: 100%;
             max-width: 1400px;
             margin: 0 auto;
+            padding: 0;
         }
 
+        /* HEADER */
         header {
             background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         h1 {
             color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
+            margin-bottom: 3px;
+            font-size: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .subtitle {
-            color: #666;
-            font-size: 14px;
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 0;
         }
 
+        /* SEARCH SECTION */
         .search-section {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            padding: 12px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .search-bar {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 10px;
             flex-wrap: wrap;
         }
 
         input[type="text"],
         input[type="file"],
         select {
-            padding: 12px 15px;
+            padding: 14px 12px;
             border: 2px solid #e0e0e0;
             border-radius: 6px;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         input[type="text"]:focus,
@@ -78,13 +98,20 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        #searchInput {
+        input[type="text"] {
             flex: 1;
-            min-width: 250px;
+            min-width: 150px;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 30px;
         }
 
         button {
-            padding: 12px 20px;
+            padding: 14px 16px;
             background: #667eea;
             color: white;
             border: none;
@@ -92,13 +119,22 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            min-height: 48px;
+            min-width: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            background: #5568d3;
         }
 
         button:hover {
             background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
         button.secondary {
@@ -106,98 +142,177 @@
             color: #333;
         }
 
-        button.secondary:hover {
+        button.secondary:active {
             background: #e0e0e0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        button.small {
+            padding: 10px 12px;
+            font-size: 12px;
+            flex: 1;
         }
 
         button.danger {
             background: #ff6b6b;
         }
 
-        button.danger:hover {
+        button.danger:active {
             background: #ee5a52;
         }
 
+        /* FILTROS ACCORDION */
+        .accordion-header {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            border: 2px solid #e0e0e0;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            user-select: none;
+            min-height: 44px;
+        }
+
+        .accordion-header:active {
+            background: #eef1ff;
+        }
+
+        .accordion-icon {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 12px 0;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
         .filters-panel {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
         }
 
         .filter-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
+            margin-bottom: 10px;
         }
 
         .filter-group label {
             font-weight: 600;
             color: #333;
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .filter-group select {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px;
+            font-size: 15px;
         }
 
+        /* STATS */
         .stats {
-            display: flex;
-            gap: 20px;
-            margin-top: 15px;
-            padding-top: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+            padding-top: 10px;
             border-top: 2px solid #f0f0f0;
-            flex-wrap: wrap;
         }
 
         .stat {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
         }
 
         .stat-label {
-            font-size: 12px;
+            font-size: 11px;
             color: #999;
             font-weight: 600;
             text-transform: uppercase;
         }
 
         .stat-value {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             color: #667eea;
         }
 
+        /* EXPORT BUTTONS */
+        .export-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .export-buttons button {
+            padding: 10px;
+            font-size: 11px;
+        }
+
+        /* TABLA */
         .table-container {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            margin: 10px;
+            margin-top: 10px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 600px;
         }
 
         thead {
             background: #f8f9fa;
             border-bottom: 2px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         th {
-            padding: 15px;
+            padding: 12px 10px;
             text-align: left;
             font-weight: 600;
             color: #333;
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             cursor: pointer;
@@ -205,13 +320,14 @@
             white-space: nowrap;
         }
 
-        th:hover {
+        th:active {
             background: #eef1ff;
         }
 
         th.sortable::after {
             content: ' ↕';
-            opacity: 0.5;
+            opacity: 0.3;
+            font-size: 10px;
         }
 
         th.sorted-asc::after {
@@ -227,84 +343,47 @@
         }
 
         td {
-            padding: 12px 15px;
+            padding: 12px 10px;
             border-bottom: 1px solid #f0f0f0;
-            font-size: 14px;
+            font-size: 13px;
             color: #333;
         }
 
-        tr:hover {
+        tr:active {
             background: #f8f9ff;
         }
 
         .material-cell {
             font-weight: 600;
             color: #667eea;
+            font-size: 14px;
         }
 
         .linea-badge {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
+            padding: 4px 8px;
+            border-radius: 12px;
             background: #eef1ff;
             color: #667eea;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
         }
 
         .grupo-badge {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
+            padding: 4px 8px;
+            border-radius: 12px;
             background: #f0f0f0;
             color: #666;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
         }
 
         .no-results {
-            padding: 40px;
+            padding: 30px 15px;
             text-align: center;
             color: #999;
-        }
-
-        .export-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 400px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: #000;
+            font-size: 14px;
         }
 
         .loader {
@@ -334,29 +413,226 @@
             100% { transform: rotate(360deg); }
         }
 
-        @media (max-width: 768px) {
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 100%;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            min-width: auto;
+            min-height: auto;
+        }
+
+        .close:active {
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .modal input {
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal button {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* SAFE AREA */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(12px, env(safe-area-inset-left));
+                padding-right: max(12px, env(safe-area-inset-right));
+                padding-bottom: max(20px, env(safe-area-inset-bottom));
+            }
+        }
+
+        /* MEDIA QUERIES */
+        @media (min-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            header {
+                padding: 25px;
+                margin-bottom: 20px;
+                border-radius: 10px;
+            }
+
+            h1 {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+
+            .search-section {
+                padding: 20px;
+                margin: 0 0 20px 0;
+                border-radius: 10px;
+            }
+
             .search-bar {
-                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 15px;
             }
 
-            #searchInput {
-                min-width: auto;
+            input[type="text"],
+            select {
+                padding: 12px 15px;
+                font-size: 14px;
             }
 
-            table {
-                font-size: 12px;
+            button {
+                padding: 12px 20px;
+                font-size: 14px;
+                min-height: auto;
             }
 
-            td, th {
-                padding: 8px 10px;
+            .filters-panel {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 2px solid #f0f0f0;
             }
 
-            th {
-                font-size: 11px;
+            .accordion-header {
+                display: none;
+            }
+
+            .accordion-content {
+                display: block;
+                padding: 0;
+                background: transparent;
+                margin-bottom: 0;
+            }
+
+            .filter-group {
+                margin-bottom: 0;
             }
 
             .stats {
-                flex-direction: column;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .stat {
+                background: transparent;
+                padding: 0;
+            }
+
+            .export-buttons {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .table-container {
+                margin: 0;
+            }
+
+            .table-wrapper {
+                overflow-x: auto;
+            }
+
+            th {
+                padding: 15px;
+                font-size: 13px;
+            }
+
+            td {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+
+            .modal-content {
+                margin: 5% auto;
+                max-width: 400px;
+                border-radius: 10px;
+                width: auto;
+            }
+        }
+
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 18px;
+            }
+
+            .stat-value {
+                font-size: 18px;
+            }
+
+            button {
+                padding: 12px 10px;
+                font-size: 12px;
+            }
+
+            .export-buttons button {
+                font-size: 10px;
+                padding: 8px;
+            }
+
+            td {
+                font-size: 12px;
+                padding: 10px 8px;
+            }
+
+            th {
+                padding: 10px 8px;
+                font-size: 11px;
             }
         }
     </style>
@@ -364,42 +640,52 @@
 <body>
     <div class="container">
         <header>
-            <h1>📦 Maestro de Artículos</h1>
-            <p class="subtitle">CD Oquendo - Búsqueda y filtro avanzado de materiales</p>
+            <h1>📦 Maestro</h1>
+            <p class="subtitle">CD Oquendo</p>
         </header>
 
         <div class="search-section">
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="🔍 Buscar por Material o Descripción...">
-                <button onclick="cargarDesdeURL()">📥 Cargar desde Google Sheets</button>
-                <button class="secondary" onclick="document.getElementById('fileInput').click()">📂 Archivo Local</button>
+                <input type="text" id="searchInput" placeholder="🔍 Buscar...">
+                <button class="secondary small" onclick="document.getElementById('fileInput').click()">📂</button>
                 <input type="file" id="fileInput" accept=".csv,.xlsx" style="display:none;">
             </div>
 
+            <button onclick="cargarDesdeURL()" style="width: 100%; margin-bottom: 10px;">
+                📥 Cargar desde Google Sheets
+            </button>
+
+            <!-- ACCORDION FILTROS MÓVIL -->
             <div class="filters-panel">
-                <div class="filter-group">
-                    <label>Línea</label>
-                    <select id="filterLinea">
-                        <option value="">Todas las líneas</option>
-                    </select>
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    🔍 Filtros Avanzados
+                    <span class="accordion-icon">▼</span>
                 </div>
-                <div class="filter-group">
-                    <label>Grupo</label>
-                    <select id="filterGrupo">
-                        <option value="">Todos los grupos</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>UMB</label>
-                    <select id="filterUMB">
-                        <option value="">Todas las UMB</option>
-                    </select>
+                <div class="accordion-content">
+                    <div class="filter-group">
+                        <label>Línea</label>
+                        <select id="filterLinea">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Grupo</label>
+                        <select id="filterGrupo">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>UMB</label>
+                        <select id="filterUMB">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             <div class="stats">
                 <div class="stat">
-                    <div class="stat-label">Total Artículos</div>
+                    <div class="stat-label">Total</div>
                     <div class="stat-value" id="statTotal">0</div>
                 </div>
                 <div class="stat">
@@ -409,49 +695,51 @@
             </div>
 
             <div class="export-buttons">
-                <button class="secondary" onclick="exportarCSV()">📊 Exportar CSV</button>
-                <button class="secondary" onclick="exportarExcel()">📈 Exportar Excel</button>
-                <button class="danger" onclick="limpiarFiltros()">🔄 Limpiar Filtros</button>
+                <button class="secondary small" onclick="exportarCSV()" title="Exportar CSV">📊 CSV</button>
+                <button class="secondary small" onclick="exportarExcel()" title="Exportar Excel">📈 XLS</button>
+                <button class="danger small" onclick="limpiarFiltros()" title="Limpiar">🔄 Limpiar</button>
             </div>
         </div>
 
         <div class="loader" id="loader"></div>
 
         <div class="table-container">
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th class="sortable" onclick="ordenar('Material')">Material</th>
-                        <th class="sortable" onclick="ordenar('Descripción SAP')">Descripción SAP</th>
-                        <th class="sortable" onclick="ordenar('Linea')">Línea</th>
-                        <th class="sortable" onclick="ordenar('Grupo')">Grupo</th>
-                        <th class="sortable" onclick="ordenar('UMB')">UMB</th>
-                        <th class="sortable" onclick="ordenar('Unidades x Caja')">Und/Caja</th>
-                        <th class="sortable" onclick="ordenar('Cajas x Pallet')">Cajas/Pallet</th>
-                        <th class="sortable" onclick="ordenar('UMB x Pallet')">UMB/Pallet</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <tr>
-                        <td colspan="8" style="text-align: center; padding: 40px; color: #999;">
-                            Carga datos para comenzar a buscar...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="ordenar('Material')">Material</th>
+                            <th class="sortable" onclick="ordenar('Descripción SAP')">Descripción</th>
+                            <th class="sortable" onclick="ordenar('Linea')">Línea</th>
+                            <th class="sortable" onclick="ordenar('UMB')">UMB</th>
+                            <th class="sortable" onclick="ordenar('Unidades x Caja')">Und/Caja</th>
+                            <th class="sortable" onclick="ordenar('Cajas x Pallet')">Cajas/Pal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 30px 15px; color: #999;">
+                                Carga datos para comenzar...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <!-- Modal para Google Sheets -->
+    <!-- Modal Mobile -->
     <div id="sheetModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="cerrarModal()">&times;</span>
-            <h2>Cargar desde Google Sheets</h2>
-            <p style="margin-top: 15px; color: #666; font-size: 14px;">
+            <div class="modal-header">
+                <h2>Google Sheets</h2>
+                <button class="close" onclick="cerrarModal()">✕</button>
+            </div>
+            <p style="color: #666; font-size: 13px; margin-bottom: 10px;">
                 Ingresa el ID de tu Google Sheet (debe estar compartido públicamente):
             </p>
-            <input type="text" id="sheetId" placeholder="Ej: 1BxiMVs0XRA5nFMXT..." style="width: 100%; margin-top: 10px;">
-            <button onclick="cargarSheets()" style="width: 100%; margin-top: 15px;">Cargar</button>
+            <input type="text" id="sheetId" placeholder="Ej: 1BxiMVs0XRA5nFMXT...">
+            <button onclick="cargarSheets()">Cargar</button>
         </div>
     </div>
 
@@ -468,19 +756,41 @@
         document.getElementById('filterUMB').addEventListener('change', aplicarFiltros);
         document.getElementById('fileInput').addEventListener('change', cargarArchivoLocal);
 
+        function toggleAccordion(header) {
+            header.classList.toggle('active');
+            header.nextElementSibling.classList.toggle('active');
+        }
+
         function mostrarLoader(visible = true) {
             document.getElementById('loader').classList.toggle('active', visible);
         }
 
-        async function cargarDesdeURL() {
-            const sheetId = prompt('Ingresa el ID de tu Google Sheet (debe estar compartido públicamente):\n\nEjemplo: 1BxiMVs0XRA5nFMXT...');
-            if (!sheetId) return;
+        function abrirModal() {
+            document.getElementById('sheetModal').classList.add('active');
+        }
 
+        function cerrarModal() {
+            document.getElementById('sheetModal').classList.remove('active');
+        }
+
+        async function cargarDesdeURL() {
+            abrirModal();
+        }
+
+        async function cargarSheets() {
+            const sheetId = document.getElementById('sheetId').value;
+            if (!sheetId) {
+                alert('Por favor ingresa un ID válido');
+                return;
+            }
+
+            cerrarModal();
             mostrarLoader(true);
+
             try {
                 const url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
                 const response = await fetch(url);
-                if (!response.ok) throw new Error('No se pudo cargar el archivo. Verifica que el Sheet esté compartido públicamente.');
+                if (!response.ok) throw new Error('No se pudo cargar. Verifica que esté compartido públicamente.');
                 const csv = await response.text();
                 Papa.parse(csv, {
                     header: true,
@@ -491,9 +801,10 @@
                         inicializarFiltros();
                         aplicarFiltros();
                         mostrarLoader(false);
+                        document.getElementById('sheetId').value = '';
                     },
                     error: (err) => {
-                        alert('Error al procesar el CSV: ' + err.message);
+                        alert('Error: ' + err.message);
                         mostrarLoader(false);
                     }
                 });
@@ -521,7 +832,7 @@
                         mostrarLoader(false);
                     },
                     error: (err) => {
-                        alert('Error al procesar el archivo: ' + err.message);
+                        alert('Error: ' + err.message);
                         mostrarLoader(false);
                     }
                 });
@@ -535,6 +846,7 @@
             const umbs = [...new Set(datosCargados.map(d => d.UMB).filter(Boolean))].sort();
 
             const selectLinea = document.getElementById('filterLinea');
+            selectLinea.innerHTML = '<option value="">Todas</option>';
             lineas.forEach(linea => {
                 const option = document.createElement('option');
                 option.value = linea;
@@ -543,6 +855,7 @@
             });
 
             const selectGrupo = document.getElementById('filterGrupo');
+            selectGrupo.innerHTML = '<option value="">Todos</option>';
             grupos.forEach(grupo => {
                 const option = document.createElement('option');
                 option.value = grupo;
@@ -551,6 +864,7 @@
             });
 
             const selectUMB = document.getElementById('filterUMB');
+            selectUMB.innerHTML = '<option value="">Todas</option>';
             umbs.forEach(umb => {
                 const option = document.createElement('option');
                 option.value = umb;
@@ -586,26 +900,23 @@
             const tbody = document.getElementById('tableBody');
 
             if (datosCargados.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="no-results">No se encontraron resultados</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="no-results">Sin resultados</td></tr>';
                 return;
             }
 
             tbody.innerHTML = datosCargados.map(row => `
                 <tr>
                     <td class="material-cell">${row.Material}</td>
-                    <td>${row['Descripción SAP']}</td>
+                    <td style="font-size: 12px; max-width: 150px;">${row['Descripción SAP']}</td>
                     <td><span class="linea-badge">${row.Linea}</span></td>
-                    <td><span class="grupo-badge">${row.Grupo}</span></td>
                     <td>${row.UMB}</td>
                     <td>${row['Unidades x Caja']}</td>
                     <td>${row['Cajas x Pallet']}</td>
-                    <td>${row['UMB x Pallet']}</td>
                 </tr>
             `).join('');
         }
 
         function ordenar(columna) {
-            const th = event.target;
             document.querySelectorAll('th').forEach(t => t.classList.remove('sorted-asc', 'sorted-desc'));
 
             if (columnaSorte === columna) {
@@ -619,7 +930,6 @@
                 let valA = a[columna];
                 let valB = b[columna];
 
-                // Ordenar números como números
                 if (!isNaN(valA) && !isNaN(valB)) {
                     valA = parseFloat(valA);
                     valB = parseFloat(valB);
@@ -633,12 +943,12 @@
                     (valA < valB ? 1 : -1);
             });
 
-            th.classList.add(direccionSorte === 'asc' ? 'sorted-asc' : 'sorted-desc');
+            event.target.classList.add(direccionSorte === 'asc' ? 'sorted-asc' : 'sorted-desc');
             renderizarTabla();
         }
 
         function exportarCSV() {
-            const headers = ['Material', 'Descripción SAP', 'UMB', 'Env x UMB', 'Unidades x Caja', 'Tbl cama Actual', 'Tbl nivel Actual', 'Cajas x Pallet', 'UMB x Pallet', 'Linea', 'Grupo'];
+            const headers = ['Material', 'Descripción SAP', 'UMB', 'Unidades x Caja', 'Cajas x Pallet', 'UMB x Pallet', 'Linea', 'Grupo'];
             const csv = [headers.join(',')];
             
             datosCargados.forEach(row => {
@@ -653,22 +963,18 @@
         }
 
         function exportarExcel() {
-            let html = '<table><tr>';
-            document.querySelectorAll('th').forEach(th => {
-                html += `<td>${th.textContent.trim()}</td>`;
-            });
-            html += '</tr>';
+            let html = '<table><tr><td>Material</td><td>Descripción SAP</td><td>UMB</td><td>Und/Caja</td><td>Cajas/Pal</td><td>UMB/Pal</td><td>Línea</td><td>Grupo</td></tr>';
             
             datosCargados.forEach(row => {
                 html += '<tr>';
                 html += `<td>${row.Material}</td>`;
                 html += `<td>${row['Descripción SAP']}</td>`;
-                html += `<td>${row.Linea}</td>`;
-                html += `<td>${row.Grupo}</td>`;
                 html += `<td>${row.UMB}</td>`;
                 html += `<td>${row['Unidades x Caja']}</td>`;
                 html += `<td>${row['Cajas x Pallet']}</td>`;
                 html += `<td>${row['UMB x Pallet']}</td>`;
+                html += `<td>${row.Linea}</td>`;
+                html += `<td>${row.Grupo}</td>`;
                 html += '</tr>';
             });
             html += '</table>';
@@ -700,6 +1006,13 @@
             document.getElementById('filterUMB').value = '';
             aplicarFiltros();
         }
+
+        // Cerrar modal al tocar afuera
+        document.getElementById('sheetModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('sheetModal')) {
+                cerrarModal();
+            }
+        });
     </script>
 </body>
 </html>
