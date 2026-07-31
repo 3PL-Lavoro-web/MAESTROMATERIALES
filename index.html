@@ -408,6 +408,31 @@
             animation: spin 1s linear infinite;
         }
 
+        .status-bar {
+            background: #e8f4f8;
+            border-left: 4px solid #667eea;
+            padding: 10px 12px;
+            margin: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .status-bar.loading {
+            background: #fff9e6;
+            border-left-color: #ffa500;
+        }
+
+        .status-bar.success {
+            background: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+
+        .status-bar.error {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -492,7 +517,6 @@
             margin-top: 10px;
         }
 
-        /* SAFE AREA */
         @supports (padding: max(0px)) {
             body {
                 padding-left: max(12px, env(safe-area-inset-left));
@@ -501,7 +525,6 @@
             }
         }
 
-        /* MEDIA QUERIES */
         @media (min-width: 768px) {
             .container {
                 padding: 20px;
@@ -644,6 +667,10 @@
             <p class="subtitle">CD Oquendo</p>
         </header>
 
+        <div id="statusBar" class="status-bar loading" style="display: none;">
+            ⏳ Cargando datos...
+        </div>
+
         <div class="search-section">
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="🔍 Buscar...">
@@ -651,8 +678,8 @@
                 <input type="file" id="fileInput" accept=".csv,.xlsx" style="display:none;">
             </div>
 
-            <button onclick="cargarDesdeURL()" style="width: 100%; margin-bottom: 10px;">
-                📥 Cargar desde Google Sheets
+            <button class="secondary" onclick="abrirModalURL()" style="width: 100%; margin-bottom: 10px;">
+                🔗 Cambiar URL Google Sheets
             </button>
 
             <!-- ACCORDION FILTROS MÓVIL -->
@@ -719,7 +746,7 @@
                     <tbody id="tableBody">
                         <tr>
                             <td colspan="6" style="text-align: center; padding: 30px 15px; color: #999;">
-                                Carga datos para comenzar...
+                                Cargando datos...
                             </td>
                         </tr>
                     </tbody>
@@ -728,18 +755,18 @@
         </div>
     </div>
 
-    <!-- Modal Mobile -->
-    <div id="sheetModal" class="modal">
+    <!-- Modal para cambiar URL -->
+    <div id="urlModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Google Sheets</h2>
-                <button class="close" onclick="cerrarModal()">✕</button>
+                <h2>Google Sheets URL</h2>
+                <button class="close" onclick="cerrarModalURL()">✕</button>
             </div>
             <p style="color: #666; font-size: 13px; margin-bottom: 10px;">
-                Ingresa el ID de tu Google Sheet (debe estar compartido públicamente):
+                Ingresa la URL completa de tu Google Sheet publicado:
             </p>
-            <input type="text" id="sheetId" placeholder="Ej: 1BxiMVs0XRA5nFMXT...">
-            <button onclick="cargarSheets()">Cargar</button>
+            <input type="text" id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/...">
+            <button onclick="cargarDesdeURL()">Cargar</button>
         </div>
     </div>
 
@@ -749,12 +776,31 @@
         let columnaSorte = null;
         let direccionSorte = 'asc';
 
+        // CONFIGURACIÓN - TU URL AUTOMÁTICA
+        const DEFAULT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQfSVWlTj2PTMunfbQEUF-v3YG49fYOCXfastNvWtUlUL5L41Nb8AlZbhYqBqe1eRqovMiy61aP5-Fe/pubhtml';
+
         // Event listeners
         document.getElementById('searchInput').addEventListener('input', aplicarFiltros);
         document.getElementById('filterLinea').addEventListener('change', aplicarFiltros);
         document.getElementById('filterGrupo').addEventListener('change', aplicarFiltros);
         document.getElementById('filterUMB').addEventListener('change', aplicarFiltros);
         document.getElementById('fileInput').addEventListener('change', cargarArchivoLocal);
+
+        // Cargar datos al iniciar
+        window.addEventListener('load', () => {
+            cargarDatosAutomatico();
+        });
+
+        function mostrarStatus(mensaje, tipo = 'loading') {
+            const bar = document.getElementById('statusBar');
+            bar.textContent = mensaje;
+            bar.className = 'status-bar ' + tipo;
+            bar.style.display = 'block';
+        }
+
+        function ocultarStatus() {
+            document.getElementById('statusBar').style.display = 'none';
+        }
 
         function toggleAccordion(header) {
             header.classList.toggle('active');
@@ -765,32 +811,42 @@
             document.getElementById('loader').classList.toggle('active', visible);
         }
 
-        function abrirModal() {
-            document.getElementById('sheetModal').classList.add('active');
+        function abrirModalURL() {
+            document.getElementById('urlModal').classList.add('active');
         }
 
-        function cerrarModal() {
-            document.getElementById('sheetModal').classList.remove('active');
+        function cerrarModalURL() {
+            document.getElementById('urlModal').classList.remove('active');
         }
 
-        async function cargarDesdeURL() {
-            abrirModal();
-        }
-
-        async function cargarSheets() {
-            const sheetId = document.getElementById('sheetId').value;
-            if (!sheetId) {
-                alert('Por favor ingresa un ID válido');
-                return;
+        function convertirURLaExportacion(url) {
+            // Si es URL de edición
+            if (url.includes('/edit')) {
+                const sheetId = url.split('/d/')[1].split('/')[0];
+                return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
             }
+            // Si es URL de publicación pubhtml
+            else if (url.includes('/pubhtml')) {
+                const sheetId = url.split('/d/')[1].split('/')[0];
+                return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
+            }
+            // Si es URL de export directo
+            else if (url.includes('/export')) {
+                return url;
+            }
+            return url;
+        }
 
-            cerrarModal();
+        async function cargarDatosAutomatico() {
+            mostrarStatus('⏳ Cargando datos...', 'loading');
             mostrarLoader(true);
 
             try {
-                const url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('No se pudo cargar. Verifica que esté compartido públicamente.');
+                const exportUrl = convertirURLaExportacion(DEFAULT_SHEET_URL);
+                const response = await fetch(exportUrl);
+                
+                if (!response.ok) throw new Error('No se pudo cargar desde Google Sheets');
+                
                 const csv = await response.text();
                 Papa.parse(csv, {
                     header: true,
@@ -801,15 +857,58 @@
                         inicializarFiltros();
                         aplicarFiltros();
                         mostrarLoader(false);
-                        document.getElementById('sheetId').value = '';
+                        mostrarStatus('✅ ' + datosCargados.length + ' artículos cargados', 'success');
+                        setTimeout(ocultarStatus, 3000);
                     },
                     error: (err) => {
-                        alert('Error: ' + err.message);
+                        mostrarStatus('❌ Error: ' + err.message, 'error');
                         mostrarLoader(false);
                     }
                 });
             } catch (error) {
-                alert('Error: ' + error.message);
+                mostrarStatus('❌ Error: ' + error.message, 'error');
+                mostrarLoader(false);
+            }
+        }
+
+        async function cargarDesdeURL() {
+            const url = document.getElementById('sheetUrl').value;
+            if (!url) {
+                alert('Por favor ingresa una URL válida');
+                return;
+            }
+
+            cerrarModalURL();
+            mostrarStatus('⏳ Cargando desde URL...', 'loading');
+            mostrarLoader(true);
+
+            try {
+                const exportUrl = convertirURLaExportacion(url);
+                const response = await fetch(exportUrl);
+                
+                if (!response.ok) throw new Error('No se pudo cargar. Verifica la URL.');
+                
+                const csv = await response.text();
+                Papa.parse(csv, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: (results) => {
+                        datosCargados = results.data.filter(row => row.Material);
+                        datosOriginales = JSON.parse(JSON.stringify(datosCargados));
+                        inicializarFiltros();
+                        aplicarFiltros();
+                        mostrarLoader(false);
+                        mostrarStatus('✅ ' + datosCargados.length + ' artículos cargados', 'success');
+                        setTimeout(ocultarStatus, 3000);
+                        document.getElementById('sheetUrl').value = '';
+                    },
+                    error: (err) => {
+                        mostrarStatus('❌ Error: ' + err.message, 'error');
+                        mostrarLoader(false);
+                    }
+                });
+            } catch (error) {
+                mostrarStatus('❌ Error: ' + error.message, 'error');
                 mostrarLoader(false);
             }
         }
@@ -818,6 +917,7 @@
             const file = e.target.files[0];
             if (!file) return;
 
+            mostrarStatus('⏳ Cargando archivo...', 'loading');
             mostrarLoader(true);
             const reader = new FileReader();
             reader.onload = (event) => {
@@ -830,9 +930,11 @@
                         inicializarFiltros();
                         aplicarFiltros();
                         mostrarLoader(false);
+                        mostrarStatus('✅ ' + datosCargados.length + ' artículos cargados', 'success');
+                        setTimeout(ocultarStatus, 3000);
                     },
                     error: (err) => {
-                        alert('Error: ' + err.message);
+                        mostrarStatus('❌ Error: ' + err.message, 'error');
                         mostrarLoader(false);
                     }
                 });
@@ -1008,9 +1110,9 @@
         }
 
         // Cerrar modal al tocar afuera
-        document.getElementById('sheetModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('sheetModal')) {
-                cerrarModal();
+        document.getElementById('urlModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('urlModal')) {
+                cerrarModalURL();
             }
         });
     </script>
