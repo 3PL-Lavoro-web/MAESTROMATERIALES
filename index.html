@@ -777,7 +777,7 @@
         let direccionSorte = 'asc';
 
         // CONFIGURACIÓN - TU URL AUTOMÁTICA
-        const DEFAULT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQfSVWlTj2PTMunfbQEUF-v3YG49fYOCXfastNvWtUlUL5L41Nb8AlZbhYqBqe1eRqovMiy61aP5-Fe/pubhtml';
+        const DEFAULT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQfSVWlTj2PTMunfbQEUF-v3YG49fYOCXfastNvWtUlUL5L41Nb8AlZbhYqBqe1eRqovMiy61aP5-Fe/pub?output=csv';
 
         // Event listeners
         document.getElementById('searchInput').addEventListener('input', aplicarFiltros);
@@ -824,6 +824,10 @@
             if (url.includes('/edit')) {
                 const sheetId = url.split('/d/')[1].split('/')[0];
                 return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
+            }
+            // Si es URL de publicación con /pub?output=csv (ya está en formato correcto)
+            else if (url.includes('/pub?output=csv')) {
+                return url;
             }
             // Si es URL de publicación pubhtml
             else if (url.includes('/pubhtml')) {
