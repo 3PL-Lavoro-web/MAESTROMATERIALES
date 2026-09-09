@@ -23,10 +23,10 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #0f1419;
             min-height: 100vh;
             padding: 0;
-            padding-bottom: 20px;
+            color: #b8c5d6;
         }
 
         .container {
@@ -38,90 +38,94 @@
 
         /* HEADER */
         header {
-            background: white;
-            padding: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background: #1a2332;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            border-bottom: 1px solid #2d3d52;
         }
 
         h1 {
-            color: #333;
-            margin-bottom: 3px;
-            font-size: 20px;
+            color: #e8f0ff;
+            margin-bottom: 5px;
+            font-size: 24px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-weight: 700;
         }
 
         .subtitle {
-            color: #999;
-            font-size: 12px;
-            margin-bottom: 0;
+            color: #7a8a9e;
+            font-size: 13px;
         }
 
         /* SEARCH SECTION */
         .search-section {
-            background: white;
-            padding: 12px;
-            margin: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 0 20px 20px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid #2d3d52;
         }
 
         .search-bar {
             display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
         input[type="text"],
         input[type="file"],
         select {
-            padding: 14px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 16px;
+            padding: 14px 16px;
+            border: 2px solid #2d3d52;
+            border-radius: 8px;
+            font-size: 15px;
             font-family: inherit;
-            transition: all 0.2s ease;
+            background: #1a2332;
+            color: #e8f0ff;
+            transition: all 0.3s ease;
             -webkit-appearance: none;
             appearance: none;
         }
 
+        input[type="text"]::placeholder {
+            color: #7a8a9e;
+        }
+
         input[type="text"]:focus,
         select:focus {
-            border-color: #667eea;
+            border-color: #4a9eff;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+            background: #222d3f;
         }
 
         input[type="text"] {
             flex: 1;
-            min-width: 150px;
+            min-width: 200px;
         }
 
         select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234a9eff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 10px center;
-            padding-right: 30px;
+            background-position: right 12px center;
+            padding-right: 36px;
         }
 
         button {
-            padding: 14px 16px;
-            background: #667eea;
+            padding: 14px 20px;
+            background: #4a9eff;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             min-height: 48px;
-            min-width: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -130,20 +134,25 @@
 
         button:active {
             transform: scale(0.95);
-            background: #5568d3;
+            background: #3a8eef;
         }
 
         button:hover {
-            background: #5568d3;
+            background: #3a8eef;
+            box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
         }
 
         button.secondary {
-            background: #f0f0f0;
-            color: #333;
+            background: #2d3d52;
+            color: #b8c5d6;
         }
 
         button.secondary:active {
-            background: #e0e0e0;
+            background: #3d4d62;
+        }
+
+        button.secondary:hover {
+            background: #3d4d62;
         }
 
         button.small {
@@ -160,31 +169,38 @@
             background: #ee5a52;
         }
 
+        button.danger:hover {
+            background: #ee5a52;
+        }
+
         /* FILTROS ACCORDION */
         .accordion-header {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
+            background: #1a2332;
+            padding: 14px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
-            border: 2px solid #e0e0e0;
+            margin-bottom: 12px;
+            border: 1px solid #2d3d52;
             font-weight: 600;
-            color: #333;
+            color: #e8f0ff;
             font-size: 14px;
             user-select: none;
             min-height: 44px;
+            transition: all 0.3s ease;
         }
 
         .accordion-header:active {
-            background: #eef1ff;
+            background: #222d3f;
+            border-color: #4a9eff;
         }
 
         .accordion-icon {
-            font-size: 18px;
+            font-size: 16px;
             transition: transform 0.3s ease;
+            color: #4a9eff;
         }
 
         .accordion-header.active .accordion-icon {
@@ -193,10 +209,10 @@
 
         .accordion-content {
             display: none;
-            padding: 12px 0;
-            background: white;
-            border-radius: 6px;
-            margin-bottom: 10px;
+            padding: 15px 0;
+            background: transparent;
+            border-radius: 8px;
+            margin-bottom: 12px;
         }
 
         .accordion-content.active {
@@ -212,13 +228,13 @@
         .filter-group {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin-bottom: 10px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         .filter-group label {
             font-weight: 600;
-            color: #333;
+            color: #e8f0ff;
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -227,50 +243,51 @@
         .filter-group select {
             width: 100%;
             padding: 12px;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         /* STATS */
         .stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 2px solid #f0f0f0;
+            gap: 12px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #2d3d52;
         }
 
         .stat {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
+            gap: 6px;
+            background: #1a2332;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #2d3d52;
             text-align: center;
         }
 
         .stat-label {
             font-size: 11px;
-            color: #999;
+            color: #7a8a9e;
             font-weight: 600;
             text-transform: uppercase;
         }
 
         .stat-value {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
-            color: #667eea;
+            color: #4a9eff;
         }
 
         /* EXPORT BUTTONS */
         .export-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 2px solid #f0f0f0;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #2d3d52;
         }
 
         .export-buttons button {
@@ -280,12 +297,12 @@
 
         /* TABLA */
         .table-container {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: #1a2332;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             overflow: hidden;
-            margin: 10px;
-            margin-top: 10px;
+            margin: 0 20px 20px 20px;
+            border: 1px solid #2d3d52;
         }
 
         .table-wrapper {
@@ -296,101 +313,136 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 600px;
+            min-width: 800px;
         }
 
         thead {
-            background: #f8f9fa;
-            border-bottom: 2px solid #e0e0e0;
+            background: #0f1419;
+            border-bottom: 2px solid #2d3d52;
             position: sticky;
             top: 0;
             z-index: 10;
         }
 
         th {
-            padding: 12px 10px;
+            padding: 14px 12px;
             text-align: left;
-            font-weight: 600;
-            color: #333;
-            font-size: 12px;
+            font-weight: 700;
+            color: #4a9eff;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             cursor: pointer;
             user-select: none;
             white-space: nowrap;
+            border-right: 1px solid #2d3d52;
+        }
+
+        th:last-child {
+            border-right: none;
         }
 
         th:active {
-            background: #eef1ff;
+            background: #1a2332;
         }
 
         th.sortable::after {
             content: ' ↕';
-            opacity: 0.3;
-            font-size: 10px;
+            opacity: 0.4;
         }
 
         th.sorted-asc::after {
             content: ' ↑';
             opacity: 1;
-            color: #667eea;
         }
 
         th.sorted-desc::after {
             content: ' ↓';
             opacity: 1;
-            color: #667eea;
         }
 
         td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 12px;
+            border-bottom: 1px solid #2d3d52;
             font-size: 13px;
-            color: #333;
+            color: #b8c5d6;
+            border-right: 1px solid #2d3d52;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        tr:hover {
+            background: #222d3f;
         }
 
         tr:active {
-            background: #f8f9ff;
+            background: #2d3d52;
         }
 
         .material-cell {
-            font-weight: 600;
-            color: #667eea;
+            font-weight: 700;
+            color: #4a9eff;
             font-size: 14px;
         }
 
         .linea-badge {
             display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            background: #eef1ff;
-            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(74, 158, 255, 0.15);
+            color: #4a9eff;
             font-size: 11px;
             font-weight: 600;
+            border: 1px solid rgba(74, 158, 255, 0.3);
         }
 
         .grupo-badge {
             display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            background: #f0f0f0;
-            color: #666;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(184, 197, 214, 0.1);
+            color: #b8c5d6;
             font-size: 11px;
             font-weight: 600;
+            border: 1px solid rgba(184, 197, 214, 0.2);
+        }
+
+        .value-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 193, 7, 0.3);
         }
 
         .no-results {
-            padding: 30px 15px;
+            padding: 50px 20px;
             text-align: center;
-            color: #999;
-            font-size: 14px;
+            color: #7a8a9e;
+            font-size: 15px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7a8a9e;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
         }
 
         .loader {
             display: none;
             text-align: center;
-            padding: 20px;
-            color: #667eea;
+            padding: 30px;
+            color: #4a9eff;
         }
 
         .loader.active {
@@ -400,37 +452,44 @@
         .loader::after {
             content: '';
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #2d3d52;
+            border-top: 3px solid #4a9eff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
         .status-bar {
-            background: #e8f4f8;
-            border-left: 4px solid #667eea;
-            padding: 10px 12px;
-            margin: 10px;
-            border-radius: 6px;
+            background: rgba(74, 158, 255, 0.1);
+            border-left: 4px solid #4a9eff;
+            padding: 12px 14px;
+            margin: 0 20px 15px 20px;
+            border-radius: 8px;
             font-size: 13px;
-            color: #333;
+            color: #4a9eff;
+            border: 1px solid rgba(74, 158, 255, 0.2);
         }
 
         .status-bar.loading {
-            background: #fff9e6;
+            background: rgba(255, 165, 0, 0.1);
             border-left-color: #ffa500;
+            border-color: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
         }
 
         .status-bar.success {
-            background: #e8f5e9;
+            background: rgba(76, 175, 80, 0.1);
             border-left-color: #4caf50;
+            border-color: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
         }
 
         .status-bar.error {
-            background: #ffebee;
-            border-left-color: #f44336;
+            background: rgba(255, 107, 107, 0.1);
+            border-left-color: #ff6b6b;
+            border-color: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
         }
 
         @keyframes spin {
@@ -447,7 +506,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7);
             animation: fadeIn 0.2s ease;
         }
 
@@ -462,12 +521,13 @@
         }
 
         .modal-content {
-            background-color: white;
+            background-color: #1a2332;
             width: 100%;
             padding: 20px;
             border-radius: 12px 12px 0 0;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
             animation: slideUp 0.3s ease;
+            border-top: 1px solid #2d3d52;
         }
 
         @keyframes slideUp {
@@ -481,17 +541,17 @@
             align-items: center;
             margin-bottom: 15px;
             padding-bottom: 12px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 1px solid #2d3d52;
         }
 
         .modal-header h2 {
             font-size: 18px;
-            color: #333;
+            color: #e8f0ff;
         }
 
         .close {
-            color: #aaa;
-            font-size: 28px;
+            color: #7a8a9e;
+            font-size: 24px;
             font-weight: bold;
             cursor: pointer;
             background: none;
@@ -499,11 +559,11 @@
             padding: 0;
             min-width: auto;
             min-height: auto;
+            transition: color 0.3s ease;
         }
 
         .close:active {
-            color: #000;
-            transform: scale(1.1);
+            color: #4a9eff;
         }
 
         .modal input {
@@ -519,58 +579,37 @@
 
         @supports (padding: max(0px)) {
             body {
-                padding-left: max(12px, env(safe-area-inset-left));
-                padding-right: max(12px, env(safe-area-inset-right));
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
                 padding-bottom: max(20px, env(safe-area-inset-bottom));
             }
         }
 
         @media (min-width: 768px) {
             .container {
-                padding: 20px;
+                padding: 0;
             }
 
             header {
-                padding: 25px;
-                margin-bottom: 20px;
-                border-radius: 10px;
+                padding: 25px 30px;
+                margin-bottom: 25px;
+                border-radius: 0;
             }
 
             h1 {
-                font-size: 28px;
-                margin-bottom: 10px;
+                font-size: 32px;
             }
 
             .search-section {
-                padding: 20px;
-                margin: 0 0 20px 0;
-                border-radius: 10px;
-            }
-
-            .search-bar {
-                gap: 10px;
-                margin-bottom: 15px;
-            }
-
-            input[type="text"],
-            select {
-                padding: 12px 15px;
-                font-size: 14px;
-            }
-
-            button {
-                padding: 12px 20px;
-                font-size: 14px;
-                min-height: auto;
+                margin: 0 30px 25px 30px;
+                border-radius: 12px;
             }
 
             .filters-panel {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 gap: 15px;
                 margin-top: 15px;
-                padding-top: 15px;
-                border-top: 2px solid #f0f0f0;
             }
 
             .accordion-header {
@@ -590,52 +629,40 @@
 
             .stats {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-
-            .stat {
-                background: transparent;
-                padding: 0;
+                gap: 15px;
             }
 
             .export-buttons {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
             }
 
             .table-container {
-                margin: 0;
-            }
-
-            .table-wrapper {
-                overflow-x: auto;
+                margin: 0 30px 30px 30px;
             }
 
             th {
-                padding: 15px;
-                font-size: 13px;
+                padding: 16px 14px;
             }
 
             td {
-                padding: 12px 15px;
-                font-size: 14px;
+                padding: 13px 14px;
             }
 
             .modal-content {
-                margin: 5% auto;
-                max-width: 400px;
-                border-radius: 10px;
+                margin: 10% auto;
+                max-width: 450px;
+                border-radius: 12px;
                 width: auto;
             }
         }
 
         @media (max-width: 400px) {
             h1 {
-                font-size: 18px;
+                font-size: 20px;
             }
 
             .stat-value {
-                font-size: 18px;
+                font-size: 20px;
             }
 
             button {
@@ -643,19 +670,14 @@
                 font-size: 12px;
             }
 
-            .export-buttons button {
+            th {
+                padding: 10px 8px;
                 font-size: 10px;
-                padding: 8px;
             }
 
             td {
                 font-size: 12px;
                 padding: 10px 8px;
-            }
-
-            th {
-                padding: 10px 8px;
-                font-size: 11px;
             }
         }
     </style>
@@ -663,8 +685,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>📦 Maestro</h1>
-            <p class="subtitle">CD Oquendo</p>
+            <h1>📦 Maestro de Artículos</h1>
+            <p class="subtitle">CD Oquendo - Gestión de inventario</p>
         </header>
 
         <div id="statusBar" class="status-bar loading" style="display: none;">
@@ -673,7 +695,7 @@
 
         <div class="search-section">
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="🔍 Buscar...">
+                <input type="text" id="searchInput" placeholder="🔍 Buscar Material o Descripción...">
                 <button class="secondary small" onclick="document.getElementById('fileInput').click()">📂</button>
                 <input type="file" id="fileInput" accept=".csv,.xlsx" style="display:none;">
             </div>
@@ -712,7 +734,7 @@
 
             <div class="stats">
                 <div class="stat">
-                    <div class="stat-label">Total</div>
+                    <div class="stat-label">Total Artículos</div>
                     <div class="stat-value" id="statTotal">0</div>
                 </div>
                 <div class="stat">
@@ -739,14 +761,18 @@
                             <th class="sortable" onclick="ordenar('Descripción SAP')">Descripción</th>
                             <th class="sortable" onclick="ordenar('Linea')">Línea</th>
                             <th class="sortable" onclick="ordenar('UMB')">UMB</th>
+                            <th class="sortable" onclick="ordenar('Tbl cama Actual')">Cama</th>
+                            <th class="sortable" onclick="ordenar('Tbl nivel Actual')">Nivel</th>
                             <th class="sortable" onclick="ordenar('Unidades x Caja')">Und/Caja</th>
                             <th class="sortable" onclick="ordenar('Cajas x Pallet')">Cajas/Pal</th>
+                            <th class="sortable" onclick="ordenar('total_unidades')">Total Und</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
                         <tr>
-                            <td colspan="6" style="text-align: center; padding: 30px 15px; color: #999;">
-                                Cargando datos...
+                            <td colspan="9" class="empty-state">
+                                <div class="empty-state-icon">📦</div>
+                                <p>Cargando datos...</p>
                             </td>
                         </tr>
                     </tbody>
@@ -762,8 +788,8 @@
                 <h2>Google Sheets URL</h2>
                 <button class="close" onclick="cerrarModalURL()">✕</button>
             </div>
-            <p style="color: #666; font-size: 13px; margin-bottom: 10px;">
-                Ingresa la URL completa de tu Google Sheet publicado:
+            <p style="color: #b8c5d6; font-size: 13px; margin-bottom: 10px;">
+                Ingresa la URL de tu Google Sheet publicado:
             </p>
             <input type="text" id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/...">
             <button onclick="cargarDesdeURL()">Cargar</button>
@@ -776,7 +802,7 @@
         let columnaSorte = null;
         let direccionSorte = 'asc';
 
-        // CONFIGURACIÓN - TU URL AUTOMÁTICA
+        // CONFIGURACIÓN - TU URL
         const DEFAULT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQfSVWlTj2PTMunfbQEUF-v3YG49fYOCXfastNvWtUlUL5L41Nb8AlZbhYqBqe1eRqovMiy61aP5-Fe/pub?output=csv';
 
         // Event listeners
@@ -799,7 +825,9 @@
         }
 
         function ocultarStatus() {
-            document.getElementById('statusBar').style.display = 'none';
+            setTimeout(() => {
+                document.getElementById('statusBar').style.display = 'none';
+            }, 2000);
         }
 
         function toggleAccordion(header) {
@@ -820,23 +848,14 @@
         }
 
         function convertirURLaExportacion(url) {
-            // Si es URL de edición
-            if (url.includes('/edit')) {
+            if (url.includes('/pub?output=csv')) {
+                return url;
+            } else if (url.includes('/edit')) {
                 const sheetId = url.split('/d/')[1].split('/')[0];
                 return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
-            }
-            // Si es URL de publicación con /pub?output=csv (ya está en formato correcto)
-            else if (url.includes('/pub?output=csv')) {
-                return url;
-            }
-            // Si es URL de publicación pubhtml
-            else if (url.includes('/pubhtml')) {
+            } else if (url.includes('/pubhtml')) {
                 const sheetId = url.split('/d/')[1].split('/')[0];
                 return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
-            }
-            // Si es URL de export directo
-            else if (url.includes('/export')) {
-                return url;
             }
             return url;
         }
@@ -857,12 +876,20 @@
                     skipEmptyLines: true,
                     complete: (results) => {
                         datosCargados = results.data.filter(row => row.Material);
+                        
+                        // Calcular total de unidades
+                        datosCargados.forEach(row => {
+                            const undXCaja = parseFloat(row['Unidades x Caja']) || 0;
+                            const cajasXPallet = parseFloat(row['Cajas x Pallet']) || 0;
+                            row.total_unidades = undXCaja * cajasXPallet;
+                        });
+
                         datosOriginales = JSON.parse(JSON.stringify(datosCargados));
                         inicializarFiltros();
                         aplicarFiltros();
                         mostrarLoader(false);
                         mostrarStatus('✅ ' + datosCargados.length + ' artículos cargados', 'success');
-                        setTimeout(ocultarStatus, 3000);
+                        ocultarStatus();
                     },
                     error: (err) => {
                         mostrarStatus('❌ Error: ' + err.message, 'error');
@@ -898,12 +925,20 @@
                     skipEmptyLines: true,
                     complete: (results) => {
                         datosCargados = results.data.filter(row => row.Material);
+                        
+                        // Calcular total de unidades
+                        datosCargados.forEach(row => {
+                            const undXCaja = parseFloat(row['Unidades x Caja']) || 0;
+                            const cajasXPallet = parseFloat(row['Cajas x Pallet']) || 0;
+                            row.total_unidades = undXCaja * cajasXPallet;
+                        });
+
                         datosOriginales = JSON.parse(JSON.stringify(datosCargados));
                         inicializarFiltros();
                         aplicarFiltros();
                         mostrarLoader(false);
                         mostrarStatus('✅ ' + datosCargados.length + ' artículos cargados', 'success');
-                        setTimeout(ocultarStatus, 3000);
+                        ocultarStatus();
                         document.getElementById('sheetUrl').value = '';
                     },
                     error: (err) => {
@@ -930,12 +965,20 @@
                     skipEmptyLines: true,
                     complete: (results) => {
                         datosCargados = results.data.filter(row => row.Material);
+                        
+                        // Calcular total de unidades
+                        datosCargados.forEach(row => {
+                            const undXCaja = parseFloat(row['Unidades x Caja']) || 0;
+                            const cajasXPallet = parseFloat(row['Cajas x Pallet']) || 0;
+                            row.total_unidades = undXCaja * cajasXPallet;
+                        });
+
                         datosOriginales = JSON.parse(JSON.stringify(datosCargados));
                         inicializarFiltros();
                         aplicarFiltros();
                         mostrarLoader(false);
                         mostrarStatus('✅ ' + datosCargados.length + ' artículos cargados', 'success');
-                        setTimeout(ocultarStatus, 3000);
+                        ocultarStatus();
                     },
                     error: (err) => {
                         mostrarStatus('❌ Error: ' + err.message, 'error');
@@ -1006,18 +1049,21 @@
             const tbody = document.getElementById('tableBody');
 
             if (datosCargados.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="no-results">Sin resultados</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" class="empty-state"><div class="empty-state-icon">🔍</div><p>Sin resultados</p></td></tr>';
                 return;
             }
 
             tbody.innerHTML = datosCargados.map(row => `
                 <tr>
                     <td class="material-cell">${row.Material}</td>
-                    <td style="font-size: 12px; max-width: 150px;">${row['Descripción SAP']}</td>
+                    <td>${row['Descripción SAP']}</td>
                     <td><span class="linea-badge">${row.Linea}</span></td>
-                    <td>${row.UMB}</td>
+                    <td><span class="grupo-badge">${row.UMB}</span></td>
+                    <td><span class="value-badge">${row['Tbl cama Actual']}</span></td>
+                    <td><span class="value-badge">${row['Tbl nivel Actual']}</span></td>
                     <td>${row['Unidades x Caja']}</td>
                     <td>${row['Cajas x Pallet']}</td>
+                    <td><strong>${row.total_unidades.toLocaleString('es-PE')}</strong></td>
                 </tr>
             `).join('');
         }
@@ -1054,14 +1100,21 @@
         }
 
         function exportarCSV() {
-            const headers = ['Material', 'Descripción SAP', 'UMB', 'Unidades x Caja', 'Cajas x Pallet', 'UMB x Pallet', 'Linea', 'Grupo'];
+            const headers = ['Material', 'Descripción SAP', 'Linea', 'UMB', 'Tbl cama Actual', 'Tbl nivel Actual', 'Unidades x Caja', 'Cajas x Pallet', 'Total Unidades'];
             const csv = [headers.join(',')];
             
             datosCargados.forEach(row => {
-                const valores = headers.map(h => {
-                    const val = row[h];
-                    return typeof val === 'string' && val.includes(',') ? `"${val}"` : val;
-                });
+                const valores = [
+                    row.Material,
+                    `"${row['Descripción SAP']}"`,
+                    row.Linea,
+                    row.UMB,
+                    row['Tbl cama Actual'],
+                    row['Tbl nivel Actual'],
+                    row['Unidades x Caja'],
+                    row['Cajas x Pallet'],
+                    row.total_unidades
+                ];
                 csv.push(valores.join(','));
             });
 
@@ -1069,18 +1122,19 @@
         }
 
         function exportarExcel() {
-            let html = '<table><tr><td>Material</td><td>Descripción SAP</td><td>UMB</td><td>Und/Caja</td><td>Cajas/Pal</td><td>UMB/Pal</td><td>Línea</td><td>Grupo</td></tr>';
+            let html = '<table><tr><td>Material</td><td>Descripción</td><td>Línea</td><td>UMB</td><td>Cama</td><td>Nivel</td><td>Und/Caja</td><td>Cajas/Pal</td><td>Total Und</td></tr>';
             
             datosCargados.forEach(row => {
                 html += '<tr>';
                 html += `<td>${row.Material}</td>`;
                 html += `<td>${row['Descripción SAP']}</td>`;
+                html += `<td>${row.Linea}</td>`;
                 html += `<td>${row.UMB}</td>`;
+                html += `<td>${row['Tbl cama Actual']}</td>`;
+                html += `<td>${row['Tbl nivel Actual']}</td>`;
                 html += `<td>${row['Unidades x Caja']}</td>`;
                 html += `<td>${row['Cajas x Pallet']}</td>`;
-                html += `<td>${row['UMB x Pallet']}</td>`;
-                html += `<td>${row.Linea}</td>`;
-                html += `<td>${row.Grupo}</td>`;
+                html += `<td>${row.total_unidades}</td>`;
                 html += '</tr>';
             });
             html += '</table>';
