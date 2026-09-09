@@ -173,79 +173,6 @@
             background: #ee5a52;
         }
 
-        /* FILTROS ACCORDION */
-        .accordion-header {
-            background: #1a2332;
-            padding: 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            border: 1px solid #2d3d52;
-            font-weight: 600;
-            color: #e8f0ff;
-            font-size: 14px;
-            user-select: none;
-            min-height: 44px;
-            transition: all 0.3s ease;
-        }
-
-        .accordion-header:active {
-            background: #222d3f;
-            border-color: #4a9eff;
-        }
-
-        .accordion-icon {
-            font-size: 16px;
-            transition: transform 0.3s ease;
-            color: #4a9eff;
-        }
-
-        .accordion-header.active .accordion-icon {
-            transform: rotate(180deg);
-        }
-
-        .accordion-content {
-            display: none;
-            padding: 15px 0;
-            background: transparent;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
-
-        .accordion-content.active {
-            display: block;
-        }
-
-        .filters-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .filter-group label {
-            font-weight: 600;
-            color: #e8f0ff;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .filter-group select {
-            width: 100%;
-            padding: 12px;
-            font-size: 14px;
-        }
-
         /* STATS */
         .stats {
             display: grid;
@@ -605,28 +532,6 @@
                 border-radius: 12px;
             }
 
-            .filters-panel {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 15px;
-                margin-top: 15px;
-            }
-
-            .accordion-header {
-                display: none;
-            }
-
-            .accordion-content {
-                display: block;
-                padding: 0;
-                background: transparent;
-                margin-bottom: 0;
-            }
-
-            .filter-group {
-                margin-bottom: 0;
-            }
-
             .stats {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
@@ -704,34 +609,6 @@
                 🔗 Cambiar URL Google Sheets
             </button>
 
-            <!-- ACCORDION FILTROS MÓVIL -->
-            <div class="filters-panel">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    🔍 Filtros Avanzados
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="filter-group">
-                        <label>Línea</label>
-                        <select id="filterLinea">
-                            <option value="">Todas</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>Grupo</label>
-                        <select id="filterGrupo">
-                            <option value="">Todos</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>UMB</label>
-                        <select id="filterUMB">
-                            <option value="">Todas</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
             <div class="stats">
                 <div class="stat">
                     <div class="stat-label">Total Artículos</div>
@@ -807,9 +684,6 @@
 
         // Event listeners
         document.getElementById('searchInput').addEventListener('input', aplicarFiltros);
-        document.getElementById('filterLinea').addEventListener('change', aplicarFiltros);
-        document.getElementById('filterGrupo').addEventListener('change', aplicarFiltros);
-        document.getElementById('filterUMB').addEventListener('change', aplicarFiltros);
         document.getElementById('fileInput').addEventListener('change', cargarArchivoLocal);
 
         // Cargar datos al iniciar
@@ -828,11 +702,6 @@
             setTimeout(() => {
                 document.getElementById('statusBar').style.display = 'none';
             }, 2000);
-        }
-
-        function toggleAccordion(header) {
-            header.classList.toggle('active');
-            header.nextElementSibling.classList.toggle('active');
         }
 
         function mostrarLoader(visible = true) {
@@ -990,55 +859,18 @@
         }
 
         function inicializarFiltros() {
-            const lineas = [...new Set(datosCargados.map(d => d.Linea).filter(Boolean))].sort();
-            const grupos = [...new Set(datosCargados.map(d => d.Grupo).filter(Boolean))].sort();
-            const umbs = [...new Set(datosCargados.map(d => d.UMB).filter(Boolean))].sort();
-
-            const selectLinea = document.getElementById('filterLinea');
-            selectLinea.innerHTML = '<option value="">Todas</option>';
-            lineas.forEach(linea => {
-                const option = document.createElement('option');
-                option.value = linea;
-                option.textContent = linea;
-                selectLinea.appendChild(option);
-            });
-
-            const selectGrupo = document.getElementById('filterGrupo');
-            selectGrupo.innerHTML = '<option value="">Todos</option>';
-            grupos.forEach(grupo => {
-                const option = document.createElement('option');
-                option.value = grupo;
-                option.textContent = grupo;
-                selectGrupo.appendChild(option);
-            });
-
-            const selectUMB = document.getElementById('filterUMB');
-            selectUMB.innerHTML = '<option value="">Todas</option>';
-            umbs.forEach(umb => {
-                const option = document.createElement('option');
-                option.value = umb;
-                option.textContent = umb;
-                selectUMB.appendChild(option);
-            });
-
             document.getElementById('statTotal').textContent = datosCargados.length.toLocaleString('es-PE');
         }
 
         function aplicarFiltros() {
             const search = document.getElementById('searchInput').value.toLowerCase();
-            const filterLinea = document.getElementById('filterLinea').value;
-            const filterGrupo = document.getElementById('filterGrupo').value;
-            const filterUMB = document.getElementById('filterUMB').value;
 
             datosCargados = datosOriginales.filter(row => {
                 const matchSearch = !search || 
                     row.Material.toString().toLowerCase().includes(search) ||
                     row['Descripción SAP'].toLowerCase().includes(search);
-                const matchLinea = !filterLinea || row.Linea === filterLinea;
-                const matchGrupo = !filterGrupo || row.Grupo === filterGrupo;
-                const matchUMB = !filterUMB || row.UMB === filterUMB;
 
-                return matchSearch && matchLinea && matchGrupo && matchUMB;
+                return matchSearch;
             });
 
             document.getElementById('statResultados').textContent = datosCargados.length.toLocaleString('es-PE');
@@ -1060,7 +892,7 @@
                     <td><span class="linea-badge">${row.Linea}</span></td>
                     <td><span class="grupo-badge">${row.UMB}</span></td>
                     <td><span class="value-badge">${row['Tbl cama Actual']}</span></td>
-                    <td><span class="value-badge">${row['Tbl nivel Actual']}</span></td>
+                    <td><span class="value-badge">${row['Tbl nivel  Actual']}</span></td>
                     <td>${row['Unidades x Caja']}</td>
                     <td>${row['Cajas x Pallet']}</td>
                     <td><strong>${row.total_unidades.toLocaleString('es-PE')}</strong></td>
@@ -1100,7 +932,7 @@
         }
 
         function exportarCSV() {
-            const headers = ['Material', 'Descripción SAP', 'Linea', 'UMB', 'Tbl cama Actual', 'Tbl nivel Actual', 'Unidades x Caja', 'Cajas x Pallet', 'Total Unidades'];
+            const headers = ['Material', 'Descripción SAP', 'Linea', 'UMB', 'Tbl cama Actual', 'Tbl nivel  Actual', 'Unidades x Caja', 'Cajas x Pallet', 'Total Unidades'];
             const csv = [headers.join(',')];
             
             datosCargados.forEach(row => {
@@ -1110,7 +942,7 @@
                     row.Linea,
                     row.UMB,
                     row['Tbl cama Actual'],
-                    row['Tbl nivel Actual'],
+                    row['Tbl nivel  Actual'],
                     row['Unidades x Caja'],
                     row['Cajas x Pallet'],
                     row.total_unidades
@@ -1131,7 +963,7 @@
                 html += `<td>${row.Linea}</td>`;
                 html += `<td>${row.UMB}</td>`;
                 html += `<td>${row['Tbl cama Actual']}</td>`;
-                html += `<td>${row['Tbl nivel Actual']}</td>`;
+                html += `<td>${row['Tbl nivel  Actual']}</td>`;
                 html += `<td>${row['Unidades x Caja']}</td>`;
                 html += `<td>${row['Cajas x Pallet']}</td>`;
                 html += `<td>${row.total_unidades}</td>`;
@@ -1161,9 +993,6 @@
 
         function limpiarFiltros() {
             document.getElementById('searchInput').value = '';
-            document.getElementById('filterLinea').value = '';
-            document.getElementById('filterGrupo').value = '';
-            document.getElementById('filterUMB').value = '';
             aplicarFiltros();
         }
 
